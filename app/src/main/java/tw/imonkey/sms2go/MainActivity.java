@@ -1,5 +1,6 @@
 package tw.imonkey.sms2go;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -7,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.SmsManager;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,7 +40,16 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        sendSMS("0932xxxxxx","SMS test.");
+        TelephonyManager telephonyManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+        String myPhone;
+        try {
+            myPhone = telephonyManager.getLine1Number();
+            sendSMS(myPhone,"SMS test.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         DatabaseReference mSMS= FirebaseDatabase.getInstance().getReference("/SERVER/SMS/");
         mSMS.limitToLast(1).addChildEventListener(new ChildEventListener() {
             @Override
