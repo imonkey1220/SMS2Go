@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         String myPhone;
         try {
             myPhone = telephonyManager.getLine1Number();
+
             sendSMS(myPhone,"SMS test.");
         } catch (Exception e) {
             e.printStackTrace();
